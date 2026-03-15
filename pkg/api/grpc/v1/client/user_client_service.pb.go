@@ -204,8 +204,9 @@ func (x *GetUserRequest) GetUserId() int64 {
 type UpdateUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	FirstName     string                 `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
-	LastName      string                 `protobuf:"bytes,3,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
+	FirstName     *string                `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3,oneof" json:"first_name,omitempty"`
+	LastName      *string                `protobuf:"bytes,3,opt,name=last_name,json=lastName,proto3,oneof" json:"last_name,omitempty"`
+	AvatarUrl     *string                `protobuf:"bytes,4,opt,name=avatar_url,json=avatarUrl,proto3,oneof" json:"avatar_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -248,15 +249,22 @@ func (x *UpdateUserRequest) GetUserId() int64 {
 }
 
 func (x *UpdateUserRequest) GetFirstName() string {
-	if x != nil {
-		return x.FirstName
+	if x != nil && x.FirstName != nil {
+		return *x.FirstName
 	}
 	return ""
 }
 
 func (x *UpdateUserRequest) GetLastName() string {
-	if x != nil {
-		return x.LastName
+	if x != nil && x.LastName != nil {
+		return *x.LastName
+	}
+	return ""
+}
+
+func (x *UpdateUserRequest) GetAvatarUrl() string {
+	if x != nil && x.AvatarUrl != nil {
+		return *x.AvatarUrl
 	}
 	return ""
 }
@@ -382,12 +390,18 @@ const file_v1_client_user_client_service_proto_rawDesc = "" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\")\n" +
 	"\x0eGetUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\"h\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\"\xc2\x01\n" +
 	"\x11UpdateUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x1d\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\"\n" +
 	"\n" +
-	"first_name\x18\x02 \x01(\tR\tfirstName\x12\x1b\n" +
-	"\tlast_name\x18\x03 \x01(\tR\blastName\"d\n" +
+	"first_name\x18\x02 \x01(\tH\x00R\tfirstName\x88\x01\x01\x12 \n" +
+	"\tlast_name\x18\x03 \x01(\tH\x01R\blastName\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"avatar_url\x18\x04 \x01(\tH\x02R\tavatarUrl\x88\x01\x01B\r\n" +
+	"\v_first_nameB\f\n" +
+	"\n" +
+	"_last_nameB\r\n" +
+	"\v_avatar_url\"d\n" +
 	"\x13CreateVendorRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
@@ -443,6 +457,7 @@ func file_v1_client_user_client_service_proto_init() {
 	if File_v1_client_user_client_service_proto != nil {
 		return
 	}
+	file_v1_client_user_client_service_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
