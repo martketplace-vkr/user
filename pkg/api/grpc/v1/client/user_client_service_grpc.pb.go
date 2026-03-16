@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserClientService_GetUser_FullMethodName      = "/github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService/GetUser"
-	UserClientService_UpdateUser_FullMethodName   = "/github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService/UpdateUser"
-	UserClientService_CreateVendor_FullMethodName = "/github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService/CreateVendor"
-	UserClientService_GetVendor_FullMethodName    = "/github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService/GetVendor"
+	UserClientService_GetUser_FullMethodName          = "/github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService/GetUser"
+	UserClientService_UpdateUser_FullMethodName       = "/github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService/UpdateUser"
+	UserClientService_GetUserAddresses_FullMethodName = "/github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService/GetUserAddresses"
+	UserClientService_AddUserAddress_FullMethodName   = "/github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService/AddUserAddress"
 )
 
 // UserClientServiceClient is the client API for UserClientService service.
@@ -31,8 +31,8 @@ const (
 type UserClientServiceClient interface {
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*User, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*User, error)
-	CreateVendor(ctx context.Context, in *CreateVendorRequest, opts ...grpc.CallOption) (*Vendor, error)
-	GetVendor(ctx context.Context, in *GetVendorRequest, opts ...grpc.CallOption) (*Vendor, error)
+	GetUserAddresses(ctx context.Context, in *GetUserAddressesRequest, opts ...grpc.CallOption) (*GetUserAddressesResponse, error)
+	AddUserAddress(ctx context.Context, in *AddUserAddressRequest, opts ...grpc.CallOption) (*AddUserAddressResponse, error)
 }
 
 type userClientServiceClient struct {
@@ -63,20 +63,20 @@ func (c *userClientServiceClient) UpdateUser(ctx context.Context, in *UpdateUser
 	return out, nil
 }
 
-func (c *userClientServiceClient) CreateVendor(ctx context.Context, in *CreateVendorRequest, opts ...grpc.CallOption) (*Vendor, error) {
+func (c *userClientServiceClient) GetUserAddresses(ctx context.Context, in *GetUserAddressesRequest, opts ...grpc.CallOption) (*GetUserAddressesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Vendor)
-	err := c.cc.Invoke(ctx, UserClientService_CreateVendor_FullMethodName, in, out, cOpts...)
+	out := new(GetUserAddressesResponse)
+	err := c.cc.Invoke(ctx, UserClientService_GetUserAddresses_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userClientServiceClient) GetVendor(ctx context.Context, in *GetVendorRequest, opts ...grpc.CallOption) (*Vendor, error) {
+func (c *userClientServiceClient) AddUserAddress(ctx context.Context, in *AddUserAddressRequest, opts ...grpc.CallOption) (*AddUserAddressResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Vendor)
-	err := c.cc.Invoke(ctx, UserClientService_GetVendor_FullMethodName, in, out, cOpts...)
+	out := new(AddUserAddressResponse)
+	err := c.cc.Invoke(ctx, UserClientService_AddUserAddress_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -89,8 +89,8 @@ func (c *userClientServiceClient) GetVendor(ctx context.Context, in *GetVendorRe
 type UserClientServiceServer interface {
 	GetUser(context.Context, *GetUserRequest) (*User, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*User, error)
-	CreateVendor(context.Context, *CreateVendorRequest) (*Vendor, error)
-	GetVendor(context.Context, *GetVendorRequest) (*Vendor, error)
+	GetUserAddresses(context.Context, *GetUserAddressesRequest) (*GetUserAddressesResponse, error)
+	AddUserAddress(context.Context, *AddUserAddressRequest) (*AddUserAddressResponse, error)
 	mustEmbedUnimplementedUserClientServiceServer()
 }
 
@@ -107,11 +107,11 @@ func (UnimplementedUserClientServiceServer) GetUser(context.Context, *GetUserReq
 func (UnimplementedUserClientServiceServer) UpdateUser(context.Context, *UpdateUserRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
-func (UnimplementedUserClientServiceServer) CreateVendor(context.Context, *CreateVendorRequest) (*Vendor, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateVendor not implemented")
+func (UnimplementedUserClientServiceServer) GetUserAddresses(context.Context, *GetUserAddressesRequest) (*GetUserAddressesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserAddresses not implemented")
 }
-func (UnimplementedUserClientServiceServer) GetVendor(context.Context, *GetVendorRequest) (*Vendor, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetVendor not implemented")
+func (UnimplementedUserClientServiceServer) AddUserAddress(context.Context, *AddUserAddressRequest) (*AddUserAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddUserAddress not implemented")
 }
 func (UnimplementedUserClientServiceServer) mustEmbedUnimplementedUserClientServiceServer() {}
 func (UnimplementedUserClientServiceServer) testEmbeddedByValue()                           {}
@@ -170,38 +170,38 @@ func _UserClientService_UpdateUser_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserClientService_CreateVendor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateVendorRequest)
+func _UserClientService_GetUserAddresses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserAddressesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserClientServiceServer).CreateVendor(ctx, in)
+		return srv.(UserClientServiceServer).GetUserAddresses(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserClientService_CreateVendor_FullMethodName,
+		FullMethod: UserClientService_GetUserAddresses_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserClientServiceServer).CreateVendor(ctx, req.(*CreateVendorRequest))
+		return srv.(UserClientServiceServer).GetUserAddresses(ctx, req.(*GetUserAddressesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserClientService_GetVendor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetVendorRequest)
+func _UserClientService_AddUserAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddUserAddressRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserClientServiceServer).GetVendor(ctx, in)
+		return srv.(UserClientServiceServer).AddUserAddress(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserClientService_GetVendor_FullMethodName,
+		FullMethod: UserClientService_AddUserAddress_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserClientServiceServer).GetVendor(ctx, req.(*GetVendorRequest))
+		return srv.(UserClientServiceServer).AddUserAddress(ctx, req.(*AddUserAddressRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -222,12 +222,12 @@ var UserClientService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserClientService_UpdateUser_Handler,
 		},
 		{
-			MethodName: "CreateVendor",
-			Handler:    _UserClientService_CreateVendor_Handler,
+			MethodName: "GetUserAddresses",
+			Handler:    _UserClientService_GetUserAddresses_Handler,
 		},
 		{
-			MethodName: "GetVendor",
-			Handler:    _UserClientService_GetVendor_Handler,
+			MethodName: "AddUserAddress",
+			Handler:    _UserClientService_AddUserAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -25,8 +25,9 @@ type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	FirstName     string                 `protobuf:"bytes,3,opt,name=first_name,json=firstName,proto3" json:"first_name,omitempty"`
-	LastName      string                 `protobuf:"bytes,4,opt,name=last_name,json=lastName,proto3" json:"last_name,omitempty"`
+	FirstName     *string                `protobuf:"bytes,3,opt,name=first_name,json=firstName,proto3,oneof" json:"first_name,omitempty"`
+	LastName      *string                `protobuf:"bytes,4,opt,name=last_name,json=lastName,proto3,oneof" json:"last_name,omitempty"`
+	AvatarUrl     *string                `protobuf:"bytes,5,opt,name=avatar_url,json=avatarUrl,proto3,oneof" json:"avatar_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -76,43 +77,52 @@ func (x *User) GetEmail() string {
 }
 
 func (x *User) GetFirstName() string {
-	if x != nil {
-		return x.FirstName
+	if x != nil && x.FirstName != nil {
+		return *x.FirstName
 	}
 	return ""
 }
 
 func (x *User) GetLastName() string {
-	if x != nil {
-		return x.LastName
+	if x != nil && x.LastName != nil {
+		return *x.LastName
 	}
 	return ""
 }
 
-type Vendor struct {
+func (x *User) GetAvatarUrl() string {
+	if x != nil && x.AvatarUrl != nil {
+		return *x.AvatarUrl
+	}
+	return ""
+}
+
+type Address struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Country       string                 `protobuf:"bytes,2,opt,name=country,proto3" json:"country,omitempty"`
+	City          string                 `protobuf:"bytes,3,opt,name=city,proto3" json:"city,omitempty"`
+	Street        string                 `protobuf:"bytes,4,opt,name=street,proto3" json:"street,omitempty"`
+	PostalCode    string                 `protobuf:"bytes,5,opt,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`
+	UserId        int64                  `protobuf:"varint,6,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Vendor) Reset() {
-	*x = Vendor{}
+func (x *Address) Reset() {
+	*x = Address{}
 	mi := &file_v1_client_user_client_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Vendor) String() string {
+func (x *Address) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Vendor) ProtoMessage() {}
+func (*Address) ProtoMessage() {}
 
-func (x *Vendor) ProtoReflect() protoreflect.Message {
+func (x *Address) ProtoReflect() protoreflect.Message {
 	mi := &file_v1_client_user_client_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -124,37 +134,51 @@ func (x *Vendor) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Vendor.ProtoReflect.Descriptor instead.
-func (*Vendor) Descriptor() ([]byte, []int) {
+// Deprecated: Use Address.ProtoReflect.Descriptor instead.
+func (*Address) Descriptor() ([]byte, []int) {
 	return file_v1_client_user_client_service_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Vendor) GetId() int64 {
+func (x *Address) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-func (x *Vendor) GetUserId() int64 {
+func (x *Address) GetCountry() string {
+	if x != nil {
+		return x.Country
+	}
+	return ""
+}
+
+func (x *Address) GetCity() string {
+	if x != nil {
+		return x.City
+	}
+	return ""
+}
+
+func (x *Address) GetStreet() string {
+	if x != nil {
+		return x.Street
+	}
+	return ""
+}
+
+func (x *Address) GetPostalCode() string {
+	if x != nil {
+		return x.PostalCode
+	}
+	return ""
+}
+
+func (x *Address) GetUserId() int64 {
 	if x != nil {
 		return x.UserId
 	}
 	return 0
-}
-
-func (x *Vendor) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *Vendor) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
 }
 
 type GetUserRequest struct {
@@ -207,6 +231,7 @@ type UpdateUserRequest struct {
 	FirstName     *string                `protobuf:"bytes,2,opt,name=first_name,json=firstName,proto3,oneof" json:"first_name,omitempty"`
 	LastName      *string                `protobuf:"bytes,3,opt,name=last_name,json=lastName,proto3,oneof" json:"last_name,omitempty"`
 	AvatarUrl     *string                `protobuf:"bytes,4,opt,name=avatar_url,json=avatarUrl,proto3,oneof" json:"avatar_url,omitempty"`
+	Email         string                 `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -269,29 +294,34 @@ func (x *UpdateUserRequest) GetAvatarUrl() string {
 	return ""
 }
 
-type CreateVendorRequest struct {
+func (x *UpdateUserRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+type GetUserAddressesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	UserID        int64                  `protobuf:"varint,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateVendorRequest) Reset() {
-	*x = CreateVendorRequest{}
+func (x *GetUserAddressesRequest) Reset() {
+	*x = GetUserAddressesRequest{}
 	mi := &file_v1_client_user_client_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateVendorRequest) String() string {
+func (x *GetUserAddressesRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateVendorRequest) ProtoMessage() {}
+func (*GetUserAddressesRequest) ProtoMessage() {}
 
-func (x *CreateVendorRequest) ProtoReflect() protoreflect.Message {
+func (x *GetUserAddressesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_v1_client_user_client_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -303,53 +333,39 @@ func (x *CreateVendorRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateVendorRequest.ProtoReflect.Descriptor instead.
-func (*CreateVendorRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetUserAddressesRequest.ProtoReflect.Descriptor instead.
+func (*GetUserAddressesRequest) Descriptor() ([]byte, []int) {
 	return file_v1_client_user_client_service_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CreateVendorRequest) GetUserId() int64 {
+func (x *GetUserAddressesRequest) GetUserID() int64 {
 	if x != nil {
-		return x.UserId
+		return x.UserID
 	}
 	return 0
 }
 
-func (x *CreateVendorRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *CreateVendorRequest) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-type GetVendorRequest struct {
+type GetUserAddressesResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	VendorId      int64                  `protobuf:"varint,1,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
+	Addresses     []*Address             `protobuf:"bytes,1,rep,name=addresses,proto3" json:"addresses,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetVendorRequest) Reset() {
-	*x = GetVendorRequest{}
+func (x *GetUserAddressesResponse) Reset() {
+	*x = GetUserAddressesResponse{}
 	mi := &file_v1_client_user_client_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetVendorRequest) String() string {
+func (x *GetUserAddressesResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetVendorRequest) ProtoMessage() {}
+func (*GetUserAddressesResponse) ProtoMessage() {}
 
-func (x *GetVendorRequest) ProtoReflect() protoreflect.Message {
+func (x *GetUserAddressesResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_v1_client_user_client_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -361,59 +377,159 @@ func (x *GetVendorRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetVendorRequest.ProtoReflect.Descriptor instead.
-func (*GetVendorRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetUserAddressesResponse.ProtoReflect.Descriptor instead.
+func (*GetUserAddressesResponse) Descriptor() ([]byte, []int) {
 	return file_v1_client_user_client_service_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *GetVendorRequest) GetVendorId() int64 {
+func (x *GetUserAddressesResponse) GetAddresses() []*Address {
 	if x != nil {
-		return x.VendorId
+		return x.Addresses
 	}
-	return 0
+	return nil
+}
+
+type AddUserAddressRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Address       *Address               `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddUserAddressRequest) Reset() {
+	*x = AddUserAddressRequest{}
+	mi := &file_v1_client_user_client_service_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddUserAddressRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddUserAddressRequest) ProtoMessage() {}
+
+func (x *AddUserAddressRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_client_user_client_service_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddUserAddressRequest.ProtoReflect.Descriptor instead.
+func (*AddUserAddressRequest) Descriptor() ([]byte, []int) {
+	return file_v1_client_user_client_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *AddUserAddressRequest) GetAddress() *Address {
+	if x != nil {
+		return x.Address
+	}
+	return nil
+}
+
+type AddUserAddressResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Address       *Address               `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddUserAddressResponse) Reset() {
+	*x = AddUserAddressResponse{}
+	mi := &file_v1_client_user_client_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddUserAddressResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddUserAddressResponse) ProtoMessage() {}
+
+func (x *AddUserAddressResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_client_user_client_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddUserAddressResponse.ProtoReflect.Descriptor instead.
+func (*AddUserAddressResponse) Descriptor() ([]byte, []int) {
+	return file_v1_client_user_client_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *AddUserAddressResponse) GetAddress() *Address {
+	if x != nil {
+		return x.Address
+	}
+	return nil
 }
 
 var File_v1_client_user_client_service_proto protoreflect.FileDescriptor
 
 const file_v1_client_user_client_service_proto_rawDesc = "" +
 	"\n" +
-	"#v1/client/user_client_service.proto\x127github.com.martketplace.vkr.user.pkg.api.grpc.v1.client\"h\n" +
+	"#v1/client/user_client_service.proto\x127github.com.martketplace.vkr.user.pkg.api.grpc.v1.client\"\xc2\x01\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1d\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12\"\n" +
 	"\n" +
-	"first_name\x18\x03 \x01(\tR\tfirstName\x12\x1b\n" +
-	"\tlast_name\x18\x04 \x01(\tR\blastName\"g\n" +
-	"\x06Vendor\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\x03R\x06userId\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\")\n" +
+	"first_name\x18\x03 \x01(\tH\x00R\tfirstName\x88\x01\x01\x12 \n" +
+	"\tlast_name\x18\x04 \x01(\tH\x01R\blastName\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"avatar_url\x18\x05 \x01(\tH\x02R\tavatarUrl\x88\x01\x01B\r\n" +
+	"\v_first_nameB\f\n" +
+	"\n" +
+	"_last_nameB\r\n" +
+	"\v_avatar_url\"\x99\x01\n" +
+	"\aAddress\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x18\n" +
+	"\acountry\x18\x02 \x01(\tR\acountry\x12\x12\n" +
+	"\x04city\x18\x03 \x01(\tR\x04city\x12\x16\n" +
+	"\x06street\x18\x04 \x01(\tR\x06street\x12\x1f\n" +
+	"\vpostal_code\x18\x05 \x01(\tR\n" +
+	"postalCode\x12\x17\n" +
+	"\auser_id\x18\x06 \x01(\x03R\x06userId\")\n" +
 	"\x0eGetUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\"\xc2\x01\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\"\xd8\x01\n" +
 	"\x11UpdateUserRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\"\n" +
 	"\n" +
 	"first_name\x18\x02 \x01(\tH\x00R\tfirstName\x88\x01\x01\x12 \n" +
 	"\tlast_name\x18\x03 \x01(\tH\x01R\blastName\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"avatar_url\x18\x04 \x01(\tH\x02R\tavatarUrl\x88\x01\x01B\r\n" +
+	"avatar_url\x18\x04 \x01(\tH\x02R\tavatarUrl\x88\x01\x01\x12\x14\n" +
+	"\x05email\x18\x05 \x01(\tR\x05emailB\r\n" +
 	"\v_first_nameB\f\n" +
 	"\n" +
 	"_last_nameB\r\n" +
-	"\v_avatar_url\"d\n" +
-	"\x13CreateVendorRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"/\n" +
-	"\x10GetVendorRequest\x12\x1b\n" +
-	"\tvendor_id\x18\x01 \x01(\x03R\bvendorId2\xfb\x04\n" +
+	"\v_avatar_url\"1\n" +
+	"\x17GetUserAddressesRequest\x12\x16\n" +
+	"\x06UserID\x18\x01 \x01(\x03R\x06UserID\"z\n" +
+	"\x18GetUserAddressesResponse\x12^\n" +
+	"\taddresses\x18\x01 \x03(\v2@.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddressR\taddresses\"s\n" +
+	"\x15AddUserAddressRequest\x12Z\n" +
+	"\aaddress\x18\x01 \x01(\v2@.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddressR\aaddress\"t\n" +
+	"\x16AddUserAddressResponse\x12Z\n" +
+	"\aaddress\x18\x01 \x01(\v2@.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddressR\aaddress2\xaf\x05\n" +
 	"\x11UserClientService\x12\x91\x01\n" +
 	"\aGetUser\x12G.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserRequest\x1a=.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.User\x12\x97\x01\n" +
 	"\n" +
-	"UpdateUser\x12J.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UpdateUserRequest\x1a=.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.User\x12\x9d\x01\n" +
-	"\fCreateVendor\x12L.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.CreateVendorRequest\x1a?.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.Vendor\x12\x97\x01\n" +
-	"\tGetVendor\x12I.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetVendorRequest\x1a?.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.VendorB@Z>github.com/martketplace-vkr/user/pkg/api/grpc/v1/client;clientb\x06proto3"
+	"UpdateUser\x12J.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UpdateUserRequest\x1a=.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.User\x12\xb7\x01\n" +
+	"\x10GetUserAddresses\x12P.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserAddressesRequest\x1aQ.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserAddressesResponse\x12\xb1\x01\n" +
+	"\x0eAddUserAddress\x12N.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddUserAddressRequest\x1aO.github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddUserAddressResponseB@Z>github.com/martketplace-vkr/user/pkg/api/grpc/v1/client;clientb\x06proto3"
 
 var (
 	file_v1_client_user_client_service_proto_rawDescOnce sync.Once
@@ -427,29 +543,34 @@ func file_v1_client_user_client_service_proto_rawDescGZIP() []byte {
 	return file_v1_client_user_client_service_proto_rawDescData
 }
 
-var file_v1_client_user_client_service_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_v1_client_user_client_service_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_v1_client_user_client_service_proto_goTypes = []any{
-	(*User)(nil),                // 0: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.User
-	(*Vendor)(nil),              // 1: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.Vendor
-	(*GetUserRequest)(nil),      // 2: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserRequest
-	(*UpdateUserRequest)(nil),   // 3: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UpdateUserRequest
-	(*CreateVendorRequest)(nil), // 4: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.CreateVendorRequest
-	(*GetVendorRequest)(nil),    // 5: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetVendorRequest
+	(*User)(nil),                     // 0: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.User
+	(*Address)(nil),                  // 1: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.Address
+	(*GetUserRequest)(nil),           // 2: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserRequest
+	(*UpdateUserRequest)(nil),        // 3: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UpdateUserRequest
+	(*GetUserAddressesRequest)(nil),  // 4: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserAddressesRequest
+	(*GetUserAddressesResponse)(nil), // 5: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserAddressesResponse
+	(*AddUserAddressRequest)(nil),    // 6: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddUserAddressRequest
+	(*AddUserAddressResponse)(nil),   // 7: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddUserAddressResponse
 }
 var file_v1_client_user_client_service_proto_depIdxs = []int32{
-	2, // 0: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.GetUser:input_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserRequest
-	3, // 1: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.UpdateUser:input_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UpdateUserRequest
-	4, // 2: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.CreateVendor:input_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.CreateVendorRequest
-	5, // 3: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.GetVendor:input_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetVendorRequest
-	0, // 4: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.GetUser:output_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.User
-	0, // 5: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.UpdateUser:output_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.User
-	1, // 6: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.CreateVendor:output_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.Vendor
-	1, // 7: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.GetVendor:output_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.Vendor
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserAddressesResponse.addresses:type_name -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.Address
+	1, // 1: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddUserAddressRequest.address:type_name -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.Address
+	1, // 2: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddUserAddressResponse.address:type_name -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.Address
+	2, // 3: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.GetUser:input_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserRequest
+	3, // 4: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.UpdateUser:input_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UpdateUserRequest
+	4, // 5: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.GetUserAddresses:input_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserAddressesRequest
+	6, // 6: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.AddUserAddress:input_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddUserAddressRequest
+	0, // 7: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.GetUser:output_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.User
+	0, // 8: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.UpdateUser:output_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.User
+	5, // 9: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.GetUserAddresses:output_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.GetUserAddressesResponse
+	7, // 10: github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.UserClientService.AddUserAddress:output_type -> github.com.martketplace.vkr.user.pkg.api.grpc.v1.client.AddUserAddressResponse
+	7, // [7:11] is the sub-list for method output_type
+	3, // [3:7] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_v1_client_user_client_service_proto_init() }
@@ -457,6 +578,7 @@ func file_v1_client_user_client_service_proto_init() {
 	if File_v1_client_user_client_service_proto != nil {
 		return
 	}
+	file_v1_client_user_client_service_proto_msgTypes[0].OneofWrappers = []any{}
 	file_v1_client_user_client_service_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -464,7 +586,7 @@ func file_v1_client_user_client_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_v1_client_user_client_service_proto_rawDesc), len(file_v1_client_user_client_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

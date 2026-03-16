@@ -8,30 +8,27 @@ option go_package = "github.com/martketplace-vkr/user/pkg/api/grpc/v1/client;cli
 
 
 service UserClientService {
-
   rpc GetUser(GetUserRequest) returns (User);
   rpc UpdateUser(UpdateUserRequest) returns (User);
-  rpc CreateVendor(CreateVendorRequest) returns (Vendor);
-  rpc GetVendor(GetVendorRequest) returns (Vendor);
-
+  rpc GetUserAddresses(GetUserAddressesRequest) returns (GetUserAddressesResponse);
+  rpc AddUserAddress(AddUserAddressRequest) returns (AddUserAddressResponse);
 }
 
 message User {
-
   int64 id = 1;
   string email = 2;
-  string first_name = 3;
-  string last_name = 4;
-
+  optional string first_name = 3;
+  optional string last_name = 4;
+  optional string avatar_url = 5;
 }
 
-message Vendor {
-
+message Address {
   int64 id = 1;
-  int64 user_id = 2;
-  string name = 3;
-  string description = 4;
-
+  string country =2;
+  string city = 3;
+  string  street = 4;
+  string postal_code = 5;
+  int64 user_id = 6;
 }
 
 message GetUserRequest {
@@ -43,14 +40,21 @@ message UpdateUserRequest {
   optional string first_name = 2;
   optional string last_name = 3;
   optional string avatar_url = 4;
+  string email = 5;
 }
 
-message CreateVendorRequest {
-  int64 user_id = 1;
-  string name = 2;
-  string description = 3;
+message GetUserAddressesRequest {
+  int64 UserID = 1;
 }
 
-message GetVendorRequest {
-  int64 vendor_id = 1;
+message GetUserAddressesResponse{
+  repeated Address addresses = 1;
+} 
+
+message AddUserAddressRequest {
+  Address address = 1;
+}
+
+message AddUserAddressResponse{
+  Address address = 1;
 }
