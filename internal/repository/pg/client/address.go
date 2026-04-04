@@ -55,7 +55,7 @@ func (r *repository) SelectUserAddresses(ctx context.Context, userID int64) (add
 			city,
 			street,
 			postal_code
-		from "user".addresses
+		from "user".address
 		where user_id = $1
 	`
 

@@ -76,9 +76,9 @@ func (r *repository) SelectUser(ctx context.Context, userID int64) (user domain.
 			first_name, 
 			last_name,
 			avatar_url,
-			craeted_at
+			created_at
 		from "user".user
-		where user_id = $1
+		where id = $1
 	`
 
 	err = r.ctxGetter.DefaultTrOrDB(ctx, r.db).GetContext(
@@ -93,4 +93,3 @@ func (r *repository) SelectUser(ctx context.Context, userID int64) (user domain.
 
 	return user, nil
 }
-
