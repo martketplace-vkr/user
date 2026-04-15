@@ -19,3 +19,9 @@ create table if not exists "user".address (
     postal_code text,
     created_at timestamptz not null default now()
 );
+
+create table if not exists "user".pick_up_points(
+    id bigserial primaery key,
+    user_id bigint not null references "user"."user"(id),
+    pick_up_point_id bigint not null
+);

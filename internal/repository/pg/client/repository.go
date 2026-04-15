@@ -77,7 +77,7 @@ func (r *repository) SelectUser(ctx context.Context, userID int64) (user domain.
 			last_name,
 			avatar_url,
 			created_at
-		from "user".user
+		from "user"."user"
 		where id = $1
 	`
 
