@@ -21,7 +21,7 @@ create table if not exists "user".address (
 );
 
 create table if not exists "user".pick_up_points(
-    id bigserial primaery key,
+    id bigserial primary key,
     user_id bigint not null references "user"."user"(id),
     pick_up_point_id bigint not null
 );
