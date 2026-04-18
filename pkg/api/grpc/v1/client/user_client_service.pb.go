@@ -184,6 +184,7 @@ func (x *Address) GetUserId() int64 {
 type GetUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        int64                  `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -223,6 +224,13 @@ func (x *GetUserRequest) GetUserId() int64 {
 		return x.UserId
 	}
 	return 0
+}
+
+func (x *GetUserRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
 }
 
 type UpdateUserRequest struct {
@@ -501,9 +509,10 @@ const file_v1_client_user_client_service_proto_rawDesc = "" +
 	"\x06street\x18\x04 \x01(\tR\x06street\x12\x1f\n" +
 	"\vpostal_code\x18\x05 \x01(\tR\n" +
 	"postalCode\x12\x17\n" +
-	"\auser_id\x18\x06 \x01(\x03R\x06userId\")\n" +
+	"\auser_id\x18\x06 \x01(\x03R\x06userId\"?\n" +
 	"\x0eGetUserRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\x03R\x06userId\"\xd8\x01\n" +
+	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\"\xd8\x01\n" +
 	"\x11UpdateUserRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\x03R\x06userId\x12\"\n" +
 	"\n" +

@@ -28,8 +28,13 @@ func (s *service) UpsertUser(ctx context.Context, req dto.UpdateUserRequest) (us
 	return user, nil
 }
 
-func (s *service) GetUser(ctx context.Context, userID int64) (user domain.User, err error) {
-	return s.repository.SelectUser(ctx, userID)
+func (s *service) GetUser(ctx context.Context, req dto.UpdateUserRequest) (user domain.User, err error) {
+	user, err = s.repository.UpsertUser(ctx, req)
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
 }
 
 func (s *service) AddUserAddress(ctx context.Context, address *domain.Address) (err error) {

@@ -9,7 +9,7 @@ import (
 
 type (
 	service interface {
-		GetUser(ctx context.Context, userID int64) (user domain.User, err error)
+		GetUser(ctx context.Context, req dto.UpdateUserRequest) (user domain.User, err error)
 		UpsertUser(ctx context.Context, req dto.UpdateUserRequest) (user domain.User, err error)
 		GetUserAddresses(ctx context.Context, userID int64) (addresses domain.AddressList, err error)
 		AddUserAddress(ctx context.Context, address *domain.Address) (err error)

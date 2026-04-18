@@ -20,7 +20,10 @@ func New(service service) *Handler {
 }
 
 func (h *Handler) GetUser(ctx context.Context, request *client.GetUserRequest) (resp *client.User, err error) {
-	user, err := h.service.GetUser(ctx, request.UserId)
+	user, err := h.service.GetUser(ctx, dto.UpdateUserRequest{
+		UserID: request.UserId,
+		Email:  request.Email,
+	})
 	if err != nil {
 		return resp, err
 	}
