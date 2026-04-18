@@ -23,7 +23,7 @@ func New(db *sqlx.DB, ctxGetter *trmsqlx.CtxGetter) *repository {
 
 func (r *repository) UpsertUser(ctx context.Context, req dto.UpdateUserRequest) (user domain.User, err error) {
 	query := `
-	insert into "user"."user"(
+	insert into "user"."user" as u (
 		id,
 		email,
 		first_name,
@@ -38,10 +38,10 @@ func (r *repository) UpsertUser(ctx context.Context, req dto.UpdateUserRequest) 
 	)
 	on conflict (id) do update
 	set
-		email = coalesce($2, email),
-		first_name = coalesce($3, first_name),
-		last_name = coalesce($4, last_name),
-		avatar_url = coalesce($5, avatar_url)
+		email = coalesce(excluded.email, u.email),
+		first_name = coalesce(excluded.first_name, u.first_name),
+		last_name = coalesce(excluded.last_name, u.last_name),
+		avatar_url = coalesce(excluded.avatar_url, u.avatar_url)
 	returning 
 		id,
 		email,
@@ -49,6 +49,7 @@ func (r *repository) UpsertUser(ctx context.Context, req dto.UpdateUserRequest) 
 		last_name,
 		avatar_url,
 		created_at
+
 	`
 
 	err = r.ctxGetter.DefaultTrOrDB(ctx, r.db).GetContext(
